@@ -197,7 +197,7 @@
       </div>
     </section>
 
-    <!-- 5. LOCALIZED THAI CHECKOUT FORM (WITH DIRECT LINE FORWARDING) -->
+    <!-- 5. LOCALIZED THAI CHECKOUT FORM -->
     <section id="checkout-section" class="p-4 bg-tiktok-card mt-2 border-y border-tiktok-border">
       <h2 id="ui-checkout-title" class="text-sm font-bold text-white mb-3 flex items-center gap-2">
         <span class="w-2 h-4 rounded-sm tiktok-gradient inline-block"></span>
@@ -295,7 +295,7 @@
   </div>
 
   <!-- ================================================================= -->
-  <!-- LINE ORDER CONFIRMATION MODAL (Öffnet sich nach "Confirm Order")  -->
+  <!-- LINE ORDER CONFIRMATION MODAL                                    -->
   <!-- ================================================================= -->
   <div id="line-order-modal" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-tiktok-card border border-tiktok-border rounded-2xl max-w-md w-full p-5 space-y-4 shadow-2xl">
@@ -311,16 +311,13 @@
         ระบบได้คัดลอกสรุปคำสั่งซื้อของคุณไว้แล้ว กดปุ่มสีเขียวด้านล่างเพื่อเปิดแชท LINE ของร้าน แล้วกด <strong>"วาง (Paste)"</strong> เพื่อส่งให้แอดมินได้เลยค่ะ ❤️
       </p>
 
-      <!-- Vorschau des generierten Bestellscheins -->
       <pre id="order-slip-preview" class="p-3 rounded-xl bg-tiktok-dark border border-tiktok-border text-[11px] text-gray-200 whitespace-pre-wrap font-sans leading-relaxed max-h-48 overflow-y-auto"></pre>
 
       <div class="space-y-2 pt-1">
-        <!-- Haupt-Button: Öffnet Päengs LINE Profil/Chat -->
         <a id="btn-open-paeng-line" href="https://line.me/ti/p/~111142id" target="_blank" rel="noopener" class="w-full py-3.5 rounded-xl bg-line-green hover:bg-emerald-500 text-white font-bold text-sm shadow-lg flex items-center justify-center gap-2 transition">
           <span>💬 เปิด LINE ส่งคำสั่งซื้อทันที (Open LINE)</span>
         </a>
 
-        <!-- Zweit-Button: Erneut kopieren falls nötig -->
         <button type="button" onclick="copyOrderSlipAgain()" id="ui-btn-copy-again" class="w-full py-2 rounded-xl bg-zinc-800 border border-tiktok-border text-xs text-gray-300 hover:text-white">
           📋 คัดลอกข้อความอีกครั้ง (Copy Order Text Again)
         </button>
@@ -349,4 +346,637 @@
           </div>
           <div>
             <label class="text-gray-400 block mb-1">Kategorie-Badge *</label>
-            <input type="text" id="new-tag" required placeholder="z.B. F
+            <input type="text" id="new-tag" required placeholder="z.B. Flatlay Look" class="w-full bg-tiktok-dark border border-tiktok-border rounded-lg px-3 py-2 text-white" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="text-gray-400 block mb-1">Verkaufspreis (THB) *</label>
+            <input type="number" id="new-price" required placeholder="290" class="w-full bg-tiktok-dark border border-tiktok-border rounded-lg px-3 py-2 text-white" />
+          </div>
+          <div>
+            <label class="text-gray-400 block mb-1">Streichpreis (THB) *</label>
+            <input type="number" id="new-orig-price" required placeholder="450" class="w-full bg-tiktok-dark border border-tiktok-border rounded-lg px-3 py-2 text-white" />
+          </div>
+        </div>
+
+        <div class="p-3 rounded-xl bg-tiktok-dark border border-tiktok-border space-y-2">
+          <label class="text-palex-blush font-semibold block">Produktfoto (vom Handy auswählen oder Bild-Link)</label>
+          <input type="file" id="new-image-file" accept="image/*" onchange="previewUploadedImage(event)" class="w-full text-[11px] text-gray-300 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-tiktok-pink file:text-white" />
+          <input type="url" id="new-image-url" placeholder="Oder Bild-URL einfügen (https://...)" class="w-full bg-tiktok-card border border-tiktok-border rounded-lg px-3 py-1.5 text-white" />
+          <img id="new-image-preview" class="hidden w-20 h-24 object-cover rounded-lg border border-tiktok-border mt-2" />
+        </div>
+
+        <div class="space-y-2 pt-1">
+          <label class="text-palex-blush font-semibold block">Produktname (3 Sprachen)</label>
+          <input type="text" id="new-title-th" required placeholder="🇹🇭 ชื่อสินค้าภาษาไทย" class="w-full bg-tiktok-dark border border-tiktok-border rounded-lg px-3 py-2 text-white" />
+          <input type="text" id="new-title-en" required placeholder="🇬🇧 English Product Name" class="w-full bg-tiktok-dark border border-tiktok-border rounded-lg px-3 py-2 text-white" />
+          <input type="text" id="new-title-de" required placeholder="🇩🇪 Deutscher Produktname" class="w-full bg-tiktok-dark border border-tiktok-border rounded-lg px-3 py-2 text-white" />
+        </div>
+
+        <div class="space-y-2 pt-1">
+          <label class="text-palex-blush font-semibold block">Produktbeschreibung (3 Sprachen)</label>
+          <input type="text" id="new-desc-th" required placeholder="🇹🇭 รายละเอียดสินค้า" class="w-full bg-tiktok-dark border border-tiktok-border rounded-lg px-3 py-2 text-white" />
+          <input type="text" id="new-desc-en" required placeholder="🇬🇧 Short English description" class="w-full bg-tiktok-dark border border-tiktok-border rounded-lg px-3 py-2 text-white" />
+          <input type="text" id="new-desc-de" required placeholder="🇩🇪 Kurze deutsche Beschreibung" class="w-full bg-tiktok-dark border border-tiktok-border rounded-lg px-3 py-2 text-white" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="text-gray-400 block mb-1">Größen (Komma-getrennt)</label>
+            <input type="text" id="new-sizes" value="Free Size, S, M, L" class="w-full bg-tiktok-dark border border-tiktok-border rounded-lg px-3 py-2 text-white" />
+          </div>
+          <div>
+            <label class="text-gray-400 block mb-1">Farben (Komma-getrennt)</label>
+            <input type="text" id="new-colors" value="Espresso Brown, Cream White" class="w-full bg-tiktok-dark border border-tiktok-border rounded-lg px-3 py-2 text-white" />
+          </div>
+        </div>
+
+        <div class="flex gap-2 pt-2">
+          <button type="submit" class="flex-1 py-2.5 rounded-xl tiktok-gradient text-white font-bold">
+            + Artikel zum Shop hinzufügen
+          </button>
+          <button type="button" onclick="exportCatalogCode()" class="px-3 py-2.5 rounded-xl bg-zinc-800 border border-tiktok-border text-gray-200 hover:bg-zinc-700">
+            Code kopieren
+          </button>
+        </div>
+      </form>
+
+      <div class="pt-3 border-t border-tiktok-border">
+        <span class="text-xs font-semibold text-gray-400 block mb-2">Aktuelle Artikel im Shop:</span>
+        <div id="admin-product-list" class="space-y-1.5 text-xs"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="fixed top-16 left-1/2 -translate-x-1/2 z-50 hidden bg-emerald-600 text-white text-xs font-semibold px-4 py-2.5 rounded-full shadow-xl"></div>
+
+  <!-- ================================================================= -->
+  <!-- JAVASCRIPT: LOGIK, KATALOG & ADMIN-STEUERUNG                      -->
+  <!-- ================================================================= -->
+  <script>
+    const PAENG_LINE_URL = "https://line.me/ti/p/~111142id";
+
+    const UI_TEXT = {
+      th: {
+        subtitle: "แฟชั่นคัดพิเศษ ส่งตรงจากกรุงเทพฯ",
+        selectItemLabel: "เลือกสินค้าในคอลเลกชัน (แตะเพื่อสลับรุ่น)",
+        addProductBtn: "+ เพิ่ม/จัดการสินค้า",
+        codBadge: "เก็บเงินปลายทาง (COD)",
+        soldLabel: "ขายดีประจำสัปดาห์",
+        trust1: "ส่งไว J&T / Flash",
+        trust2: "รับชำระปลายทาง",
+        trust3: "ถ่ายจากสินค้าจริง",
+        colorLabel: "เลือกสี (Color):",
+        sizeLabel: "ขนาด (Size):",
+        sizeGuide: "เนื้อผ้ายืดหยุ่น ทรงสวยใส่สบาย",
+        bundleLabel: "โปรโมชั่นเซ็ตสุดคุ้ม (Bundle Deal):",
+        bundle1Title: "ซื้อ 1 ชิ้น",
+        bundle1Sub: "ค่าจัดส่งด่วน ฿35",
+        bundle2Title: "เซ็ตคู่ 2 ชิ้น (-10%)",
+        bundle2Sub: "ส่งฟรีทั่วไทย! (Free Shipping)",
+        checkoutTitle: "กรอกข้อมูลจัดส่งด่วน (Express Checkout)",
+        labelName: "ชื่อ-นามสกุล ผู้รับ *",
+        labelPhone: "เบอร์โทรศัพท์ (สำหรับขนส่ง) *",
+        labelAddress: "ที่อยู่จัดส่งครบถ้วน *",
+        labelPayment: "เลือกวิธีชำระเงิน *",
+        payCod: "เก็บเงินปลายทาง (COD)",
+        payPromptpay: "สแกน PromptPay QR",
+        sumHeader: "สรุปรายการสั่งซื้อ",
+        sumItem: "สินค้าที่เลือก:",
+        sumVariant: "สี / ขนาด / จำนวน:",
+        sumShipping: "ค่าจัดส่ง:",
+        sumTotal: "ยอดชำระสุทธิ:",
+        btnSubmit: "ยืนยันคำสั่งซื้อและส่งเข้า LINE (Confirm Order)",
+        socialText: "สอบถามเพิ่มเติมหรือดูรีวิวสินค้าจริงได้ที่ Instagram และ LINE",
+        bottomTotalLabel: "ยอดรวมทั้งสิ้น",
+        bottomCta: "สั่งซื้อเลย (Order Now)",
+        freeShippingText: "ส่งฟรี (฿0)",
+        modalLineTitle: "คัดลอกใบสั่งซื้อเรียบร้อย!",
+        modalLineDesc: "ระบบคัดลอกสรุปคำสั่งซื้อให้แล้ว กดปุ่มสีเขียวด้านล่างเพื่อเปิดแชท LINE ของร้าน แล้วกดวาง (Paste) ส่งให้แอดมินได้เลยค่ะ ❤️",
+        btnOpenLine: "💬 เปิด LINE ส่งคำสั่งซื้อทันที",
+        btnCopyAgain: "📋 คัดลอกข้อความสั่งซื้ออีกครั้ง",
+        copiedToast: "คัดลอกข้อมูลสั่งซื้อแล้ว! กดวางในแชท LINE ได้เลย ❤️"
+      },
+      en: {
+        subtitle: "Curated Bangkok Fashion Studio",
+        selectItemLabel: "Select Collection Item (Tap to switch):",
+        addProductBtn: "+ Manage Products",
+        codBadge: "Cash on Delivery (COD)",
+        soldLabel: "Weekly Bestseller",
+        trust1: "Fast J&T / Flash",
+        trust2: "COD Available",
+        trust3: "Real Flatlay Photos",
+        colorLabel: "Select Color:",
+        sizeLabel: "Select Size:",
+        sizeGuide: "Flattering fit & soft breathable fabric",
+        bundleLabel: "Special Bundle Deal:",
+        bundle1Title: "1 Piece Standard",
+        bundle1Sub: "Express Shipping ฿35",
+        bundle2Title: "2 Pieces Set (-10%)",
+        bundle2Sub: "FREE Shipping Nationwide!",
+        checkoutTitle: "Express Thailand Checkout",
+        labelName: "Full Name *",
+        labelPhone: "Phone Number (for courier) *",
+        labelAddress: "Full Delivery Address in Thailand *",
+        labelPayment: "Payment Method *",
+        payCod: "Cash on Delivery (COD)",
+        payPromptpay: "PromptPay QR Scan",
+        sumHeader: "Order Summary",
+        sumItem: "Selected Item:",
+        sumVariant: "Variant & Qty:",
+        sumShipping: "Shipping Fee:",
+        sumTotal: "Total Payable:",
+        btnSubmit: "Confirm Order & Send via LINE",
+        socialText: "Chat with us or follow our newest flatlays on Instagram & LINE",
+        bottomTotalLabel: "Total Payable",
+        bottomCta: "Order Now",
+        freeShippingText: "FREE (฿0)",
+        modalLineTitle: "Order Summary Copied!",
+        modalLineDesc: "Your order details are copied to your clipboard. Tap the green button below to open our LINE chat and paste your order ❤️",
+        btnOpenLine: "💬 Open LINE & Send Order",
+        btnCopyAgain: "📋 Copy Order Text Again",
+        copiedToast: "Order copied! Paste it directly in the LINE chat ❤️"
+      },
+      de: {
+        subtitle: "Kuratiertes Fashion-Studio aus Bangkok",
+        selectItemLabel: "Artikel auswählen (Antippen zum Wechseln):",
+        addProductBtn: "+ Artikel hinzufügen",
+        codBadge: "Nachnahme (COD)",
+        soldLabel: "Wochen-Bestseller",
+        trust1: "Schneller J&T Versand",
+        trust2: "Barzahlung bei Lieferung",
+        trust3: "Echte Flatlay-Fotos",
+        colorLabel: "Farbe wählen:",
+        sizeLabel: "Größe wählen:",
+        sizeGuide: "Angenehmer Stoff & perfekte Passform",
+        bundleLabel: "Mengenrabatt-Aktion (Bundle):",
+        bundle1Title: "1 Stück Einzelkauf",
+        bundle1Sub: "Express-Versand ฿35",
+        bundle2Title: "2er-Set Vorteil (-10%)",
+        bundle2Sub: "GRATIS Versand in ganz Thailand!",
+        checkoutTitle: "Schnell-Checkout (Lieferung in Thailand)",
+        labelName: "Vor- und Nachname *",
+        labelPhone: "Telefonnummer (für Paketdienst) *",
+        labelAddress: "Vollständige Lieferadresse in Thailand *",
+        labelPayment: "Zahlungsart wählen *",
+        payCod: "Nachnahme (COD)",
+        payPromptpay: "PromptPay QR-Code",
+        sumHeader: "Bestellübersicht",
+        sumItem: "Gewählter Artikel:",
+        sumVariant: "Variante & Menge:",
+        sumShipping: "Versandkosten:",
+        sumTotal: "Gesamtbetrag:",
+        btnSubmit: "Bestellen & direkt an LINE senden",
+        socialText: "Fragen oder Wünsche? Schreib uns direkt bei Instagram oder LINE",
+        bottomTotalLabel: "Gesamtbetrag",
+        bottomCta: "Jetzt bestellen",
+        freeShippingText: "GRATIS (฿0)",
+        modalLineTitle: "Bestellschein kopiert!",
+        modalLineDesc: "Deine Bestelldaten wurden automatisch kopiert. Klicke unten auf den grünen Button, um Päengs LINE-Chat zu öffnen, und füge die Nachricht dort ein ❤️",
+        btnOpenLine: "💬 Päengs LINE öffnen & Bestellung senden",
+        btnCopyAgain: "📋 Bestelltext erneut kopieren",
+        copiedToast: "Bestelltext kopiert! Einfach im LINE-Chat einfügen ❤️"
+      }
+    };
+
+    const DEFAULT_PRODUCTS = [
+      {
+        id: "plx-01",
+        sku: "PLX-01",
+        price: 250,
+        originalPrice: 390,
+        tag: "Signature Top",
+        images: [
+          "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=900&q=80",
+          "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=900&q=80"
+        ],
+        sizes: ["Free Size", "S", "M", "L"],
+        colors: [
+          { th: "น้ำตาลเอสเพรสโซ่ (ขอบลูกไม้ขาว)", en: "Espresso Brown (White Lace)", de: "Espresso-Braun (Weiße Spitze)" },
+          { th: "ดำคลาสสิก (ขอบลูกไม้ขาว)", en: "Classic Black (White Lace)", de: "Klassisch Schwarz (Weiße Spitze)" }
+        ],
+        title: {
+          th: "La Belle เสื้อสายเดี่ยวทรงจับจีบข้าง แต่งแถบลูกไม้ขาว",
+          en: "La Belle Ruched Sleeveless Top with White Lace Trim",
+          de: "La Belle Ärmelloses Top mit seitlicher Raffung & weißer Spitze"
+        },
+        desc: {
+          th: "เสื้อแขนกุดสีน้ำตาลทรงสวย จับจีบด้านข้างช่วยพรางหุ่น แต่งแถบลูกไม้สีขาวเพิ่มความละมุน ใส่แมทช์กับกางเกงยีนส์หรือกระโปรงก็สวยเป๊ะ",
+          en: "Flattering side-ruched sleeveless top in rich espresso brown with delicate white lace trim. Easy to style for café hopping or casual days.",
+          de: "Figurbetontes, ärmelloses Top in edlem Espresso-Braun mit seitlicher Raffung und feiner weißer Spitzenborte. Perfekt kombinierbar."
+        }
+      },
+      {
+        id: "plx-02",
+        sku: "PLX-02",
+        price: 490,
+        originalPrice: 690,
+        tag: "Flatlay Outfit Set",
+        images: [
+          "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=900&q=80",
+          "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&fit=crop&w=900&q=80"
+        ],
+        sizes: ["Free Size", "S/M", "L/XL"],
+        colors: [
+          { th: "โทนน้ำตาลเทอร์ราคอตต้า + ยีนส์", en: "Terracotta Brown + Denim", de: "Terrakotta-Braun + Denim" },
+          { th: "โทนเอิร์ธโทนเบจ", en: "Warm Earth Beige", de: "Warmes Erd-Beige" }
+        ],
+        title: {
+          th: "เซ็ตชุดเที่ยวคาเฟ่ เสื้อคลุมเชิ้ตลายทาง + เสื้อตัวในเข้าเซ็ต",
+          en: "Café Hopping Flatlay Set: Striped Overshirt & Tank Top",
+          de: "Café-Hopping Flatlay-Set: Gestreiftes Overshirt & Top"
+        },
+        desc: {
+          th: "เซ็ตคู่สุดคุ้มจัดแมทช์มาให้ครบ จับคู่สีน้ำตาลอิฐตัดกับยีนส์ขาสั้นได้อย่างลงตัว ถ่ายรูปขึ้นกล้องสุดๆ",
+          en: "Pre-styled aesthetic flatlay outfit featuring a relaxed striped overshirt and matching inner tank top.",
+          de: "Fertig abgestimmtes Outfit-Set im modernen Flatlay-Look bestehend aus lässigem Overshirt und passendem Innentop."
+        }
+      },
+      {
+        id: "plx-03",
+        sku: "PLX-03",
+        price: 390,
+        originalPrice: 550,
+        tag: "Summer Knit",
+        images: [
+          "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=900&q=80"
+        ],
+        sizes: ["Free Size"],
+        colors: [
+          { th: "ครีมวานิลลา (Cream)", en: "Vanilla Cream", de: "Vanille-Creme" },
+          { th: "ชมพูโรสโกลด์ (Palex Rose)", en: "Palex Dusty Rose", de: "Palex Altrosa" }
+        ],
+        title: {
+          th: "เสื้อไหมพรมถักลายฉลุสไตล์เกาหลี เนื้อนุ่มใส่สบาย",
+          en: "Summer Crochet Knit Top in Soft Vanilla Cream",
+          de: "Leichtes Sommer-Stricktop in sanftem Vanille-Creme"
+        },
+        desc: {
+          th: "เสื้อถักไหมพรมเนื้อบางเบา ระบายอากาศดี ไม่ร้อน เหมาะกับอากาศเมืองไทย แมทช์กับขาสั้นได้ลุคคุณหนูสุดๆ",
+          en: "Breathable open-knit summer top designed for tropical weather. Soft touch and effortless café style.",
+          de: "Luftig-leichtes Sommer-Stricktop, ideal für tropische Temperaturen und stilvolle Freizeit-Looks."
+        }
+      }
+    ];
+
+    let products = JSON.parse(localStorage.getItem('palex_catalog')) || DEFAULT_PRODUCTS;
+    let currentLang = 'th';
+    let currentProductIndex = 0;
+    let selectedColorIndex = 0;
+    let selectedSizeIndex = 0;
+    let selectedBundleQty = 1;
+    let uploadedImageDataUrl = "";
+    let lastGeneratedOrderSlip = "";
+
+    function initShop() {
+      renderProductMenu();
+      loadProduct(0);
+      setLanguage('th');
+      renderAdminProductList();
+    }
+
+    function renderProductMenu() {
+      const bar = document.getElementById('product-menu-bar');
+      bar.innerHTML = '';
+      products.forEach((prod, idx) => {
+        const isActive = idx === currentProductIndex;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.onclick = () => loadProduct(idx);
+        btn.className = `flex items-center gap-2.5 p-1.5 pr-3 rounded-xl border transition shrink-0 text-left ${
+          isActive
+            ? 'bg-tiktok-pink/15 border-tiktok-pink text-white shadow-sm'
+            : 'bg-tiktok-dark border-tiktok-border text-gray-300 hover:border-gray-600'
+        }`;
+        btn.innerHTML = `
+          <img src="${prod.images[0]}" class="w-11 h-12 rounded-lg object-cover shrink-0 bg-zinc-800" />
+          <div class="max-w-[135px]">
+            <span class="text-[10px] font-bold text-tiktok-cyan block">${prod.sku}</span>
+            <p class="text-xs font-semibold truncate">${prod.title[currentLang]}</p>
+            <span class="text-xs font-bold text-tiktok-pink">฿${prod.price}</span>
+          </div>
+        `;
+        bar.appendChild(btn);
+      });
+    }
+
+    function loadProduct(index) {
+      currentProductIndex = index;
+      selectedColorIndex = 0;
+      selectedSizeIndex = 0;
+      const prod = products[currentProductIndex];
+
+      document.getElementById('main-product-image').src = prod.images[0];
+      document.getElementById('product-sku-display').textContent = prod.sku;
+      document.getElementById('product-tag-badge').textContent = prod.tag;
+
+      const discountPercent = Math.round(((prod.originalPrice - prod.price) / prod.originalPrice) * 100);
+      document.getElementById('product-discount-badge').textContent = `-${discountPercent}% FLASH DEAL`;
+
+      const thumbContainer = document.getElementById('gallery-thumbnails');
+      thumbContainer.innerHTML = '';
+      prod.images.forEach((imgUrl) => {
+        const thumb = document.createElement('img');
+        thumb.src = imgUrl;
+        thumb.onclick = () => { document.getElementById('main-product-image').src = imgUrl; };
+        thumb.className = "w-14 h-16 rounded-lg object-cover cursor-pointer border border-tiktok-border hover:border-tiktok-pink transition";
+        thumbContainer.appendChild(thumb);
+      });
+
+      document.getElementById('price-current').textContent = prod.price;
+      document.getElementById('price-original').textContent = prod.originalPrice;
+      document.getElementById('bundle-1-price').textContent = prod.price;
+      const bundle2Total = Math.round(prod.price * 2 * 0.9);
+      document.getElementById('bundle-2-price').textContent = bundle2Total;
+
+      document.getElementById('product-title').textContent = prod.title[currentLang];
+      document.getElementById('product-desc').textContent = prod.desc[currentLang];
+
+      renderVariants();
+      renderProductMenu();
+      selectBundle(selectedBundleQty);
+    }
+
+    function renderVariants() {
+      const prod = products[currentProductIndex];
+
+      const colorContainer = document.getElementById('color-options-container');
+      colorContainer.innerHTML = '';
+      prod.colors.forEach((colObj, idx) => {
+        const isSelected = idx === selectedColorIndex;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.onclick = () => { selectedColorIndex = idx; renderVariants(); updateOrderSummary(); };
+        btn.className = `px-3 py-1.5 rounded-xl text-xs font-medium border transition ${
+          isSelected
+            ? 'bg-tiktok-pink/20 border-tiktok-pink text-white font-semibold'
+            : 'bg-tiktok-dark border-tiktok-border text-gray-300'
+        }`;
+        btn.textContent = colObj[currentLang] || colObj.en;
+        colorContainer.appendChild(btn);
+      });
+      document.getElementById('selected-color-name').textContent =
+        prod.colors[selectedColorIndex][currentLang] || prod.colors[selectedColorIndex].en;
+
+      const sizeContainer = document.getElementById('size-options-container');
+      sizeContainer.innerHTML = '';
+      prod.sizes.forEach((sizeStr, idx) => {
+        const isSelected = idx === selectedSizeIndex;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.onclick = () => { selectedSizeIndex = idx; renderVariants(); updateOrderSummary(); };
+        btn.className = `px-3.5 py-1.5 rounded-xl text-xs font-semibold border transition ${
+          isSelected
+            ? 'bg-white text-black border-white'
+            : 'bg-tiktok-dark border-tiktok-border text-gray-300'
+        }`;
+        btn.textContent = sizeStr;
+        sizeContainer.appendChild(btn);
+      });
+    }
+
+    function selectBundle(qty) {
+      selectedBundleQty = qty;
+      const b1 = document.getElementById('bundle-1');
+      const b2 = document.getElementById('bundle-2');
+
+      if (qty === 1) {
+        b1.className = "p-3 rounded-xl border border-tiktok-pink bg-tiktok-pink/10 text-left transition";
+        b2.className = "p-3 rounded-xl border border-tiktok-border bg-tiktok-dark text-left transition relative overflow-hidden";
+      } else {
+        b1.className = "p-3 rounded-xl border border-tiktok-border bg-tiktok-dark text-left transition";
+        b2.className = "p-3 rounded-xl border border-tiktok-cyan bg-tiktok-cyan/10 text-left transition relative overflow-hidden";
+      }
+      updateOrderSummary();
+    }
+
+    function updateOrderSummary() {
+      const prod = products[currentProductIndex];
+      const t = UI_TEXT[currentLang];
+      const colorName = prod.colors[selectedColorIndex][currentLang] || prod.colors[selectedColorIndex].en;
+      const sizeName = prod.sizes[selectedSizeIndex];
+
+      const itemCost = selectedBundleQty === 1 ? prod.price : Math.round(prod.price * 2 * 0.9);
+      const shippingCost = selectedBundleQty === 1 ? 35 : 0;
+      const total = itemCost + shippingCost;
+
+      document.getElementById('sum-sku').textContent = prod.sku;
+      document.getElementById('sum-product-name').textContent = prod.title[currentLang];
+      document.getElementById('sum-variant-info').textContent = `${colorName} | ${sizeName} (${selectedBundleQty}x)`;
+      document.getElementById('sum-shipping-cost').textContent = shippingCost === 0 ? t.freeShippingText : `฿${shippingCost}`;
+      document.getElementById('sum-total-amount').textContent = total;
+      document.getElementById('bottom-total-price').textContent = total;
+    }
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      ['th', 'en', 'de'].forEach(l => {
+        const btn = document.getElementById(`lang-${l}`);
+        btn.className = l === lang
+          ? "px-2 py-1 rounded-md font-bold bg-tiktok-pink text-white transition"
+          : "px-2 py-1 rounded-md font-medium text-gray-400 hover:text-white transition";
+      });
+
+      const t = UI_TEXT[lang];
+      document.getElementById('ui-subtitle').textContent = t.subtitle;
+      document.getElementById('ui-select-item-label').textContent = t.selectItemLabel;
+      document.getElementById('ui-add-product-btn').textContent = t.addProductBtn;
+      document.getElementById('ui-cod-badge').textContent = t.codBadge;
+      document.getElementById('ui-sold-label').textContent = t.soldLabel;
+      document.getElementById('ui-trust-1').textContent = t.trust1;
+      document.getElementById('ui-trust-2').textContent = t.trust2;
+      document.getElementById('ui-trust-3').textContent = t.trust3;
+      document.getElementById('ui-color-label').textContent = t.colorLabel;
+      document.getElementById('ui-size-label').textContent = t.sizeLabel;
+      document.getElementById('ui-size-guide').textContent = t.sizeGuide;
+      document.getElementById('ui-bundle-label').textContent = t.bundleLabel;
+      document.getElementById('ui-bundle-1-title').textContent = t.bundle1Title;
+      document.getElementById('ui-bundle-1-sub').textContent = t.bundle1Sub;
+      document.getElementById('ui-bundle-2-title').textContent = t.bundle2Title;
+      document.getElementById('ui-bundle-2-sub').textContent = t.bundle2Sub;
+      document.getElementById('ui-checkout-title').querySelector('span:last-child').textContent = t.checkoutTitle;
+      document.getElementById('ui-label-name').textContent = t.labelName;
+      document.getElementById('ui-label-phone').textContent = t.labelPhone;
+      document.getElementById('ui-label-address').textContent = t.labelAddress;
+      document.getElementById('ui-label-payment').textContent = t.labelPayment;
+      document.getElementById('ui-pay-cod').textContent = t.payCod;
+      document.getElementById('ui-pay-promptpay').textContent = t.payPromptpay;
+      document.getElementById('ui-sum-header').textContent = t.sumHeader;
+      document.getElementById('ui-sum-item').textContent = t.sumItem;
+      document.getElementById('ui-sum-variant').textContent = t.sumVariant;
+      document.getElementById('ui-sum-shipping').textContent = t.sumShipping;
+      document.getElementById('ui-sum-total').textContent = t.sumTotal;
+      document.getElementById('ui-btn-submit').textContent = t.btnSubmit;
+      document.getElementById('ui-social-text').textContent = t.socialText;
+      document.getElementById('ui-bottom-total-label').textContent = t.bottomTotalLabel;
+      document.getElementById('ui-bottom-cta').textContent = t.bottomCta;
+      document.getElementById('ui-modal-line-title').textContent = t.modalLineTitle;
+      document.getElementById('ui-modal-line-desc').textContent = t.modalLineDesc;
+      document.getElementById('btn-open-paeng-line').textContent = t.btnOpenLine;
+      document.getElementById('ui-btn-copy-again').textContent = t.btnCopyAgain;
+
+      loadProduct(currentProductIndex);
+    }
+
+    function submitOrder(e) {
+      e.preventDefault();
+      const prod = products[currentProductIndex];
+      const custName = document.getElementById('cust-name').value.trim();
+      const custPhone = document.getElementById('cust-phone').value.trim();
+      const custAddress = document.getElementById('cust-address').value.trim();
+      const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+
+      const colorTh = prod.colors[selectedColorIndex].th || prod.colors[selectedColorIndex].en;
+      const sizeName = prod.sizes[selectedSizeIndex];
+      const itemCost = selectedBundleQty === 1 ? prod.price : Math.round(prod.price * 2 * 0.9);
+      const shippingCost = selectedBundleQty === 1 ? 35 : 0;
+      const totalAmount = itemCost + shippingCost;
+
+      lastGeneratedOrderSlip =
+`🛍️ คำสั่งซื้อใหม่ PALEX STUDIO
+━━━━━━━━━━━━━━
+📌 รหัสสินค้า: ${prod.sku}
+👗 สินค้า: ${prod.title.th}
+🎨 สี/ขนาด: ${colorTh} | ${sizeName}
+📦 จำนวน: ${selectedBundleQty} ชิ้น
+💳 ชำระเงิน: ${paymentMethod}
+💰 ยอดชำระสุทธิ: ฿${totalAmount} ${shippingCost === 0 ? '(ส่งฟรี)' : '(รวมค่าส่ง ฿35)'}
+━━━━━━━━━━━━━━
+👤 ชื่อผู้รับ: ${custName}
+📞 เบอร์โทร: ${custPhone}
+🏠 ที่อยู่จัดส่ง: ${custAddress}`;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(lastGeneratedOrderSlip).catch(() => {});
+      }
+
+      document.getElementById('order-slip-preview').textContent = lastGeneratedOrderSlip;
+      document.getElementById('line-order-modal').classList.remove('hidden');
+      showToast(UI_TEXT[currentLang].copiedToast);
+    }
+
+    function copyOrderSlipAgain() {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(lastGeneratedOrderSlip);
+      }
+      showToast(UI_TEXT[currentLang].copiedToast);
+    }
+
+    function closeLineModal() {
+      document.getElementById('line-order-modal').classList.add('hidden');
+    }
+
+    function toggleAdminModal() {
+      const modal = document.getElementById('admin-modal');
+      modal.classList.toggle('hidden');
+      renderAdminProductList();
+    }
+
+    function previewUploadedImage(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        uploadedImageDataUrl = e.target.result;
+        const preview = document.getElementById('new-image-preview');
+        preview.src = uploadedImageDataUrl;
+        preview.classList.remove('hidden');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleAddNewProduct(e) {
+      e.preventDefault();
+      const sku = document.getElementById('new-sku').value.trim();
+      const tag = document.getElementById('new-tag').value.trim();
+      const price = parseInt(document.getElementById('new-price').value, 10);
+      const origPrice = parseInt(document.getElementById('new-orig-price').value, 10);
+      const imgUrlInput = document.getElementById('new-image-url').value.trim();
+      const finalImage = uploadedImageDataUrl || imgUrlInput || "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=900&q=80";
+
+      const sizes = document.getElementById('new-sizes').value.split(',').map(s => s.trim()).filter(Boolean);
+      const colorNames = document.getElementById('new-colors').value.split(',').map(c => c.trim()).filter(Boolean);
+      const colors = colorNames.map(c => ({ th: c, en: c, de: c }));
+
+      const newProd = {
+        id: 'plx-' + Date.now(),
+        sku: sku,
+        price: price,
+        originalPrice: origPrice,
+        tag: tag,
+        images: [finalImage],
+        sizes: sizes.length ? sizes : ["Free Size"],
+        colors: colors.length ? colors : [{ th: "สีตามภาพ", en: "As Pictured", de: "Wie abgebildet" }],
+        title: {
+          th: document.getElementById('new-title-th').value.trim(),
+          en: document.getElementById('new-title-en').value.trim(),
+          de: document.getElementById('new-title-de').value.trim()
+        },
+        desc: {
+          th: document.getElementById('new-desc-th').value.trim(),
+          en: document.getElementById('new-desc-en').value.trim(),
+          de: document.getElementById('new-desc-de').value.trim()
+        }
+      };
+
+      products.push(newProd);
+      localStorage.setItem('palex_catalog', JSON.stringify(products));
+      uploadedImageDataUrl = "";
+      document.getElementById('add-product-form').reset();
+      document.getElementById('new-image-preview').classList.add('hidden');
+
+      renderProductMenu();
+      loadProduct(products.length - 1);
+      toggleAdminModal();
+      showToast("Neuer Artikel erfolgreich hinzugefügt!");
+    }
+
+    function renderAdminProductList() {
+      const list = document.getElementById('admin-product-list');
+      list.innerHTML = '';
+      products.forEach((p, idx) => {
+        const row = document.createElement('div');
+        row.className = "flex items-center justify-between p-2 rounded-lg bg-tiktok-dark border border-tiktok-border";
+        row.innerHTML = `
+          <div class="flex items-center gap-2 truncate">
+            <img src="${p.images[0]}" class="w-8 h-8 rounded object-cover" />
+            <div>
+              <span class="font-bold text-tiktok-cyan">${p.sku}</span> - <span>${p.title.de}</span>
+              <span class="text-tiktok-pink font-bold ml-1">฿${p.price}</span>
+            </div>
+          </div>
+          ${products.length > 1 ? `<button onclick="deleteProduct(${idx})" class="text-red-400 hover:text-red-300 px-2 font-bold">Löschen</button>` : ''}
+        `;
+        list.appendChild(row);
+      });
+    }
+
+    function deleteProduct(idx) {
+      products.splice(idx, 1);
+      localStorage.setItem('palex_catalog', JSON.stringify(products));
+      currentProductIndex = 0;
+      renderAdminProductList();
+      renderProductMenu();
+      loadProduct(0);
+    }
+
+    function exportCatalogCode() {
+      const jsonStr = JSON.stringify(products, null, 2);
+      navigator.clipboard.writeText(jsonStr);
+      showToast("Produkt-Katalog JSON in die Zwischenablage kopiert!");
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.remove('hidden');
+      setTimeout(() => toast.classList.add('hidden'), 3200);
+    }
+
+    window.addEventListener('DOMContentLoaded', initShop);
+  </script>
+</body>
+</html>
