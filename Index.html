@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="th" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>PALEX STUDIO | Official TikTok & IG Store Thailand</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Prompt', 'Inter', 'sans-serif'],
+          },
+          colors: {
+            tiktok: {
+              pink: '#FE2C55',
+              cyan: '#25F4EE',
+              dark: '#0F0F12',
+              card: '#18181C',
+              border: '#2A2A32'
+            },
+            palex: {
+              blush: '#F7E7E4',
+              rose: '#B87A7A',
+              charcoal: '#2B2B2E'
+            },
+            line: {
+              green: '#06C755'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #0F0F12;
+      color: #F4F4F6;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .tiktok-gradient {
+      background: linear-gradient(90deg, #FE2C55 0%, #B87A7A 100%);
+    }
+  </style>
+</head>
+<body class="min-h-screen pb-28 selection:bg-tiktok-pink selection:text-white">
+
+  <!-- TOP STICKY NAVBAR -->
+  <header class="sticky top-0 z-40 bg-tiktok-dark/90 backdrop-blur-md border-b border-tiktok-border">
+    <div class="max-w-md mx-auto px-4 py-2.5 flex items-center justify-between">
+      <!-- Brand Logo -->
+      <div class="flex items-center gap-2.5">
+        <div class="w-11 h-11 rounded-full bg-white p-0.5 shadow-md flex items-center justify-center shrink-0">
+          <svg viewBox="0 0 100 100" class="w-full h-full">
+            <circle cx="50" cy="50" r="46" fill="#F7E7E4" stroke="#B87A7A" stroke-width="2.5"/>
+            <path d="M35 28 V62 M35 28 H47 C53 28 55 32 53 37 C51 42 45 45 35 45" stroke="#B87A7A" stroke-width="5.5" stroke-linecap="round" fill="none"/>
+            <path d="M55 28 L44 62 M55 28 L66 62" stroke="#2B2B2E" stroke-width="6" stroke-linecap="round" fill="none"/>
+            <path d="M32 54 C32 45 58 48 63 36 C66 30 61 26 58 26" stroke="#B87A7A" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+            <path d="M46 50 L54 62 M54 50 L46 62" stroke="#B87A7A" stroke-width="3.5" stroke-linecap="round"/>
+            <text x="50" y="74" text-anchor="middle" fill="#2B2B2E" font-size="8.5" font-weight="600" letter-spacing="1.2" font-family="Inter, sans-serif">PALEX STUDIO</text>
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-1.5">
+            <span class="font-bold text-sm tracking-wide text-white">PALEX STUDIO</span>
+            <span class="bg-tiktok-pink/20 text-tiktok-pink text-[10px] font-semibold px-1.5 py-0.5 rounded">OFFICIAL</span>
+          </div>
+          <p id="ui-subtitle" class="text-[11px] text-gray-400">แฟชั่นคัดพิเศษ ส่งตรงจากกรุงเทพฯ</p>
+        </div>
+      </div>
+
+      <!-- Language Switcher + Admin Trigger -->
+      <div class="flex items-center gap-1.5">
+        <div class="flex bg-tiktok-card border border-tiktok-border rounded-lg p-0.5 text-xs">
+          <button onclick="setLanguage('th')" id="lang-th" class="px-2 py-1 rounded-md font-medium transition">TH</button>
+          <button onclick="setLanguage('en')" id="lang-en" class="px-2 py-1 rounded-md font-medium transition">EN</button>
+          <button onclick="setLanguage('de')" id="lang-de" class="px-2 py-1 rounded-md font-medium transition">DE</button>
+        </div>
+        <button onclick="toggleAdminModal()" title="Artikel hinzufügen / verwalten" class="w-8 h-8 rounded-lg bg-palex-rose/20 border border-palex-rose/50 text-palex-blush flex items-center justify-center hover:bg-palex-rose/30 transition text-sm font-bold">
+          +
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="max-w-md mx-auto">
+
+    <!-- 1. PRODUCT SELECTOR MENU -->
+    <section class="px-4 pt-3 pb-2 bg-tiktok-card/60 border-b border-tiktok-border">
+      <div class="flex items-center justify-between mb-2">
+        <span id="ui-select-item-label" class="text-xs font-semibold uppercase tracking-wider text-palex-blush">เลือกสินค้าในคอลเลกชัน (แตะเพื่อสลับรุ่น)</span>
+        <button onclick="toggleAdminModal()" id="ui-add-product-btn" class="text-[11px] text-tiktok-cyan hover:underline flex items-center gap-1">
+          <span>+ เพิ่ม/จัดการสินค้า</span>
+        </button>
+      </div>
+      <div id="product-menu-bar" class="flex gap-2.5 overflow-x-auto no-scrollbar pb-1.5"></div>
+    </section>
+
+    <!-- 2. PRODUCT IMAGE GALLERY & BADGES -->
+    <section class="relative bg-black">
+      <div class="aspect-[4/5] w-full overflow-hidden relative bg-zinc-900">
+        <img id="main-product-image" src="" alt="PALEX Product" class="w-full h-full object-cover transition-all duration-300" />
+        
+        <div class="absolute top-3 left-3 flex flex-col gap-1.5">
+          <span id="product-discount-badge" class="bg-tiktok-pink text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-lg">
+            -35% FLASH DEAL
+          </span>
+          <span id="product-tag-badge" class="bg-black/70 backdrop-blur-md text-palex-blush text-[11px] px-2.5 py-0.5 rounded-full border border-white/10">
+            Flatlay Edition
+          </span>
+        </div>
+
+        <div class="absolute bottom-3 right-3 bg-black/70 backdrop-blur-md text-[11px] text-gray-300 px-2.5 py-1 rounded-full border border-white/10">
+          SKU: <span id="product-sku-display">PLX-01</span>
+        </div>
+      </div>
+
+      <div id="gallery-thumbnails" class="flex gap-2 px-4 py-2.5 bg-tiktok-card border-b border-tiktok-border overflow-x-auto no-scrollbar"></div>
+    </section>
+
+    <!-- 3. PRICE & PRODUCT DETAILS -->
+    <section class="p-4 bg-tiktok-card border-b border-tiktok-border">
+      <div class="flex items-baseline justify-between">
+        <div class="flex items-baseline gap-2">
+          <span class="text-2xl font-bold text-tiktok-pink">฿<span id="price-current">250</span></span>
+          <span class="text-sm text-gray-500 line-through">฿<span id="price-original">390</span></span>
+          <span id="ui-cod-badge" class="ml-1 text-[11px] bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded">เก็บเงินปลายทาง (COD)</span>
+        </div>
+        <div class="text-right">
+          <span class="text-[11px] text-gray-400 block" id="ui-sold-label">ขายดีประจำสัปดาห์</span>
+        </div>
+      </div>
+
+      <h1 id="product-title" class="text-lg font-semibold text-white mt-2 leading-snug"></h1>
+      <p id="product-desc" class="text-xs text-gray-300 mt-1.5 leading-relaxed"></p>
+
+      <div class="grid grid-cols-3 gap-2 mt-3 pt-3 border-t border-tiktok-border text-[11px] text-gray-300">
+        <div class="flex items-center gap-1.5">
+          <span class="text-tiktok-cyan">✔</span>
+          <span id="ui-trust-1">ส่งไว J&T / Flash</span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <span class="text-tiktok-cyan">✔</span>
+          <span id="ui-trust-2">รับชำระปลายทาง</span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <span class="text-tiktok-cyan">✔</span>
+          <span id="ui-trust-3">ถ่ายจากสินค้าจริง</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. VARIANT SELECTION (COLORS, SIZES, BUNDLE) -->
+    <section class="p-4 bg-tiktok-card mt-2 border-y border-tiktok-border space-y-4">
+      <div>
+        <div class="flex justify-between text-xs mb-2">
+          <span id="ui-color-label" class="font-medium text-gray-300">เลือกสี (Color):</span>
+          <span id="selected-color-name" class="text-palex-blush font-semibold"></span>
+        </div>
+        <div id="color-options-container" class="flex flex-wrap gap-2"></div>
+      </div>
+
+      <div>
+        <div class="flex justify-between text-xs mb-2">
+          <span id="ui-size-label" class="font-medium text-gray-300">ขนาด (Size):</span>
+          <span id="ui-size-guide" class="text-gray-400 text-[11px]">เนื้อผ้ายืดหยุ่น ทรงสวยใส่สบาย</span>
+        </div>
+        <div id="size-options-container" class="flex flex-wrap gap-2"></div>
+      </div>
+
+      <div>
+        <span id="ui-bundle-label" class="text-xs font-medium text-gray-300 block mb-2">โปรโมชั่นเซ็ตสุดคุ้ม (Bundle Deal):</span>
+        <div class="grid grid-cols-2 gap-2.5">
+          <button type="button" onclick="selectBundle(1)" id="bundle-1" class="p-3 rounded-xl border text-left transition">
+            <div class="flex justify-between items-center">
+              <span id="ui-bundle-1-title" class="text-xs font-bold">ซื้อ 1 ชิ้น</span>
+              <span class="text-xs font-bold text-tiktok-pink">฿<span id="bundle-1-price">250</span></span>
+            </div>
+            <p id="ui-bundle-1-sub" class="text-[11px] text-gray-400 mt-0.5">ค่าจัดส่งด่วน ฿35</p>
+          </button>
+
+          <button type="button" onclick="selectBundle(2)" id="bundle-2" class="p-3 rounded-xl border text-left transition relative overflow-hidden">
+            <span class="absolute top-0 right-0 bg-tiktok-pink text-white text-[9px] font-bold px-1.5 py-0.5 rounded-bl">BESTSELLER</span>
+            <div class="flex justify-between items-center">
+              <span id="ui-bundle-2-title" class="text-xs font-bold">เซ็ตคู่ 2 ชิ้น (-10%)</span>
+              <span class="text-xs font-bold text-tiktok-cyan">฿<span id="bundle-2-price">450</span></span>
+            </div>
+            <p id="ui-bundle-2-sub" class="text-[11px] text-emerald-400 mt-0.5">ส่งฟรีทั่วไทย! (Free Shipping)</p>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. LOCALIZED THAI CHECKOUT FORM (WITH DIRECT LINE FORWARDING) -->
+    <section id="checkout-section" class="p-4 bg-tiktok-card mt-2 border-y border-tiktok-border">
+      <h2 id="ui-checkout-title" class="text-sm font-bold text-white mb-3 flex items-center gap-2">
+        <span class="w-2 h-4 rounded-sm tiktok-gradient inline-block"></span>
+        <span>กรอกข้อมูลจัดส่งด่วน (Express Checkout)</span>
+      </h2>
+
+      <form id="order-form" onsubmit="submitOrder(event)" class="space-y-3">
+        <div>
+          <label id="ui-label-name" class="text-xs text-gray-400 block mb-1">ชื่อ-นามสกุล ผู้รับ *</label>
+          <input type="text" id="cust-name" required placeholder="ชื่อ-นามสกุล" class="w-full bg-tiktok-dark border border-tiktok-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-tiktok-pink" />
+        </div>
+
+        <div>
+          <label id="ui-label-phone" class="text-xs text-gray-400 block mb-1">เบอร์โทรศัพท์ (สำหรับขนส่ง J&T / Flash) *</label>
+          <input type="tel" id="cust-phone" required placeholder="08X-XXX-XXXX" class="w-full bg-tiktok-dark border border-tiktok-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-tiktok-pink" />
+        </div>
+
+        <div>
+          <label id="ui-label-address" class="text-xs text-gray-400 block mb-1">ที่อยู่จัดส่งครบถ้วน *</label>
+          <textarea id="cust-address" rows="2" required placeholder="บ้านเลขที่ แขวง/ตำบล เขต/อำเภอ จังหวัด รหัสไปรษณีย์" class="w-full bg-tiktok-dark border border-tiktok-border rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-tiktok-pink"></textarea>
+        </div>
+
+        <div>
+          <label id="ui-label-payment" class="text-xs text-gray-400 block mb-1.5">เลือกวิธีชำระเงิน *</label>
+          <div class="grid grid-cols-2 gap-2">
+            <label class="flex items-center gap-2 p-2.5 rounded-xl border border-tiktok-border bg-tiktok-dark cursor-pointer">
+              <input type="radio" name="payment" value="เก็บเงินปลายทาง (COD)" checked onchange="updateOrderSummary()" class="accent-tiktok-pink" />
+              <span id="ui-pay-cod" class="text-xs font-medium">เก็บเงินปลายทาง (COD)</span>
+            </label>
+            <label class="flex items-center gap-2 p-2.5 rounded-xl border border-tiktok-border bg-tiktok-dark cursor-pointer">
+              <input type="radio" name="payment" value="โอนเงิน PromptPay" onchange="updateOrderSummary()" class="accent-tiktok-pink" />
+              <span id="ui-pay-promptpay" class="text-xs font-medium">สแกน PromptPay QR</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Dynamic Order Summary Box -->
+        <div class="p-3.5 rounded-xl bg-tiktok-dark border border-tiktok-border space-y-1.5 text-xs">
+          <div class="flex justify-between font-semibold text-palex-blush pb-1 border-b border-tiktok-border">
+            <span id="ui-sum-header">สรุปรายการสั่งซื้อ</span>
+            <span id="sum-sku">PLX-01</span>
+          </div>
+          <div class="flex justify-between text-gray-300 pt-1">
+            <span id="ui-sum-item">สินค้าที่เลือก:</span>
+            <span id="sum-product-name" class="font-medium text-white text-right max-w-[65%] truncate"></span>
+          </div>
+          <div class="flex justify-between text-gray-300">
+            <span id="ui-sum-variant">สี / ขนาด / จำนวน:</span>
+            <span id="sum-variant-info" class="text-gray-200"></span>
+          </div>
+          <div class="flex justify-between text-gray-300">
+            <span id="ui-sum-shipping">ค่าจัดส่ง:</span>
+            <span id="sum-shipping-cost" class="text-emerald-400"></span>
+          </div>
+          <div class="flex justify-between text-sm font-bold text-white pt-2 border-t border-tiktok-border">
+            <span id="ui-sum-total">ยอดชำระสุทธิ:</span>
+            <span class="text-tiktok-pink text-base">฿<span id="sum-total-amount">0</span></span>
+          </div>
+        </div>
+
+        <button type="submit" class="w-full py-3.5 rounded-xl tiktok-gradient text-white font-bold text-sm shadow-lg shadow-tiktok-pink/25 active:scale-[0.99] transition flex items-center justify-center gap-2">
+          <span id="ui-btn-submit">ยืนยันคำสั่งซื้อและส่งเข้า LINE (Confirm Order)</span>
+        </button>
+      </form>
+    </section>
+
+    <!-- 6. SOCIAL & DIRECT LINE CONTACT -->
+    <section class="p-4 mt-2 bg-tiktok-card border-t border-tiktok-border text-center space-y-2.5">
+      <p id="ui-social-text" class="text-xs text-gray-400">สอบถามเพิ่มเติมหรือดูรีวิวสินค้าจริงได้ที่ Instagram และ LINE</p>
+      <div class="flex justify-center gap-3">
+        <a href="https://instagram.com" target="_blank" rel="noopener" class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-purple-600/30 to-pink-600/30 border border-pink-500/40 text-xs font-semibold text-pink-200">
+          📸 IG: @palex.studio
+        </a>
+        <a href="https://line.me/ti/p/~111142id" target="_blank" rel="noopener" class="px-4 py-2.5 rounded-xl bg-line-green/20 border border-line-green/50 text-xs font-semibold text-emerald-300 flex items-center gap-1.5">
+          <span>💬 LINE: 111142id</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- STICKY BOTTOM BAR -->
+  <div class="fixed bottom-0 inset-x-0 z-30 bg-tiktok-card/95 backdrop-blur-md border-t border-tiktok-border">
+    <div class="max-w-md mx-auto px-4 py-2.5 flex items-center justify-between gap-3">
+      <div>
+        <span id="ui-bottom-total-label" class="text-[10px] text-gray-400 block">ยอดรวมทั้งสิ้น</span>
+        <span class="text-lg font-bold text-tiktok-pink">฿<span id="bottom-total-price">285</span></span>
+      </div>
+      <a href="https://line.me/ti/p/~111142id" target="_blank" rel="noopener" class="px-3.5 py-2.5 rounded-xl bg-line-green/20 border border-line-green/50 text-emerald-300 font-bold text-xs">
+        LINE Chat
+      </a>
+      <a href="#checkout-section" id="ui-bottom-cta" class="flex-1 py-2.5 rounded-xl tiktok-gradient text-center text-white font-bold text-sm shadow-md">
+        สั่งซื้อเลย (Order Now)
+      </a>
+    </div>
+  </div>
+
+  <!-- ================================================================= -->
+  <!-- LINE ORDER CONFIRMATION MODAL (Öffnet sich nach "Confirm Order")  -->
+  <!-- ================================================================= -->
+  <div id="line-order-modal" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-tiktok-card border border-tiktok-border rounded-2xl max-w-md w-full p-5 space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-tiktok-border pb-3">
+        <div class="flex items-center gap-2">
+          <span class="w-6 h-6 rounded-full bg-line-green text-black font-bold flex items-center justify-center text-xs">✓</span>
+          <h3 id="ui-modal-line-title" class="text-sm font-bold text-white">คัดลอกใบสั่งซื้อเรียบร้อย! (Order Copied)</h3>
+        </div>
+        <button onclick="closeLineModal()" class="text-gray-400 hover:text-white text-lg font-bold px-2">✕</button>
+      </div>
+
+      <p id="ui-modal-line-desc" class="text-xs text-gray-300 leading-relaxed">
+        ระบบได้คัดลอกสรุปคำสั่งซื้อของคุณไว้แล้ว กดปุ่มสีเขียวด้านล่างเพื่อเปิดแชท LINE ของร้าน แล้วกด <strong>"วาง (Paste)"</strong> เพื่อส่งให้แอดมินได้เลยค่ะ ❤️
+      </p>
+
+      <!-- Vorschau des generierten Bestellscheins -->
+      <pre id="order-slip-preview" class="p-3 rounded-xl bg-tiktok-dark border border-tiktok-border text-[11px] text-gray-200 whitespace-pre-wrap font-sans leading-relaxed max-h-48 overflow-y-auto"></pre>
+
+      <div class="space-y-2 pt-1">
+        <!-- Haupt-Button: Öffnet Päengs LINE Profil/Chat -->
+        <a id="btn-open-paeng-line" href="https://line.me/ti/p/~111142id" target="_blank" rel="noopener" class="w-full py-3.5 rounded-xl bg-line-green hover:bg-emerald-500 text-white font-bold text-sm shadow-lg flex items-center justify-center gap-2 transition">
+          <span>💬 เปิด LINE ส่งคำสั่งซื้อทันที (Open LINE)</span>
+        </a>
+
+        <!-- Zweit-Button: Erneut kopieren falls nötig -->
+        <button type="button" onclick="copyOrderSlipAgain()" id="ui-btn-copy-again" class="w-full py-2 rounded-xl bg-zinc-800 border border-tiktok-border text-xs text-gray-300 hover:text-white">
+          📋 คัดลอกข้อความอีกครั้ง (Copy Order Text Again)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================= -->
+  <!-- ADMIN MODAL: NEUE ARTIKEL HINZUFÜGEN & VERWALTEN                  -->
+  <!-- ================================================================= -->
+  <div id="admin-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-tiktok-card border border-tiktok-border rounded-2xl max-w-md w-full max-h-[90vh] overflow-y-auto p-5 space-y-4">
+      <div class="flex items-center justify-between border-b border-tiktok-border pb-3">
+        <div>
+          <h3 class="text-base font-bold text-white">PALEX Artikel-Manager</h3>
+          <p class="text-[11px] text-gray-400">Neues Produkt mehrsprachig (TH / EN / DE) zum Shop hinzufügen</p>
+        </div>
+        <button onclick="toggleAdminModal()" class="text-gray-400 hover:text-white text-lg font-bold px-2">✕</button>
+      </div>
+
+      <form id="add-product-form" onsubmit="handleAddNewProduct(event)" class="space-y-3 text-xs">
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="text-gray-400 block mb-1">Artikel-Nr. (SKU) *</label>
+            <input type="text" id="new-sku" required placeholder="z.B. PLX-04" class="w-full bg-tiktok-dark border border-tiktok-border rounded-lg px-3 py-2 text-white" />
+          </div>
+          <div>
+            <label class="text-gray-400 block mb-1">Kategorie-Badge *</label>
+            <input type="text" id="new-tag" required placeholder="z.B. F
